@@ -5,44 +5,30 @@ import { Bar, Line } from 'react-chartjs-2';
 const GlobalData = React.memo(props=>{
   const [globalData,setGlobalData]=useState();
   const [globalCountry,setGlobalCountry]=useState([]);
-  // const [confirmedCount,setConfirmedCount]=useState({});
-  // const [year, setYear] = useState([]);
   const [chartData,setChartData]=useState();
   var [dropDownValue,setDropDownValue]=useState("Afghanistan");
-
-  // const [label,setLabel]=useState();
-  // const [data,setData]=useState();
-  // const [filterData,setFilterData]=useState();
-  // var  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var [timeSeriesCovidData,setTimeSeriesCovidData]=useState("time_series_covid19_confirmed_global")
   useEffect(()=>{
     var tempCountry="";
-    csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+    csv(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/${timeSeriesCovidData}.csv`)
     .then((data)=>{
       tempCountry=new Set(data.map((value)=>value["Country/Region"]))
         setGlobalData(data);
         setGlobalCountry([...tempCountry])
     })
-  },[])
-  // console.log(globalCountry);
+    console.log("This is it");
+  },[timeSeriesCovidData])
   let filterData='';
-  // var sum=0;
   globalData && globalData.filter((val)=>{
     if(val["Country/Region"]===dropDownValue) {
        filterData = val;
-      //  setFilterData(val)
-      // );
-      // setYear(filterData);
     }
-  })
-  // console.log(filterData);    
-  
+  })  
 let header=[];
 let confirmed=[];
   for(var property in filterData)
   {
-
     var date=new Date(property);
-   
     if(!isNaN(date.valueOf())){
       header=[...header,property]
       confirmed=[...confirmed,filterData[property]]
@@ -71,7 +57,6 @@ let confirmed=[];
       useEffect(()=>{
         chart();
       },[dropDownValue])
-      // console.log("Global");
   return (
     <div>
     <select
@@ -86,7 +71,23 @@ let confirmed=[];
         return <option value={data} key={index}>{data}</option>
       })}
     </select>
+    
+    <div className="container position-relative">
+    <select
+    className="position-absolute right"
+    onChange={(e) => {
+          const dropvalue = e.target.value;
+          setTimeSeriesCovidData(dropvalue)
+        }}
+    >
+    <option value={"time_series_covid19_confirmed_global"} className="bg-primary text-white">Global Confirmed Cases</option>
+    <option value={"time_series_covid19_recovered_global"} className="bg-primary text-white">Global Recovered Cases</option>
+    <option value={"time_series_covid19_deaths_global"} className="bg-primary text-white">Global Death Cases</option>
+
+    </select>
     <Bar data={chartData} height={30} width={100}/>
+   
+    </div>
     </div>
   )
 })

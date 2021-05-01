@@ -1,16 +1,18 @@
 import {React,useState,useEffect} from 'react';
-import {Bar,Line,Doughnut } from 'react-chartjs-2'
+import {Bar} from 'react-chartjs-2'
 import { csv } from "d3";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import Moment from 'moment';
+import CountUp from "react-countup";
+
 const EveryDayData = () => {
     const [covidData,setCovidData]=useState();
   const [country,setCountry]=useState([]);
   const [chartData,setChartData]=useState({});
   const [stateValue,setStateValue]=useState([]);
-  var [dropDownValue,setDropDownValue]=useState("Alabama");
-  const [altenatDate,setAlternateDate]=useState(null);
+  const [dropDownValue,setDropDownValue]=useState("Alabama");
+  const [altenatDate,setAlternateDate]=useState(new Date());
   const [hideGraph,setHideGraph]=useState(false);
   const todayDate=new Date('2021-04-05');
     const from = Moment(todayDate).format('MM-DD-YYYY').toString();
@@ -45,7 +47,6 @@ const EveryDayData = () => {
                 'rgb(255, 0, 0)',
                 'rgb(255, 165, 0)',
                 'rgb(106, 90, 205)'
-                
               ],
               borderColor: [
                 'rgba(60, 179, 113, 1)',
@@ -54,8 +55,6 @@ const EveryDayData = () => {
 
               ],
               borderWidth: 1,
-
-              // borderWidth: 4
             }
           ]
         });
@@ -66,7 +65,7 @@ const EveryDayData = () => {
   },[stateValue,provinceState])
 
   useEffect(()=>{
- covidData&& covidData.map((val)=>{
+ covidData&& covidData.forEach((val)=>{
     if(val.Country_Region===dropDownValue) {
       let filterData = covidData.filter(
         (data) => data.Country_Region === dropDownValue
@@ -75,16 +74,18 @@ const EveryDayData = () => {
       setStateValue([parseInt(val.Confirmed),parseInt(val.Deaths),parseInt(val.Active),parseInt(val.Recovered)])
     }
   })
-  },[dropDownValue])
+  },[dropDownValue,selectedDate,provinceState])
 
-//   console.log("EveryDayData");
   useEffect(()=>{
     stateName&& stateName.map((val)=>{
        if(val.Province_State===provinceState){
          setStateValue([parseInt(val.Confirmed),parseInt(val.Deaths),parseInt(val.Active),parseInt(val.Recovered)])
        }
      })
-     },[provinceState])
+     },[provinceState,dropDownValue,selectedDate])
+
+        // console.log(stateValue[0]);
+       console.log(stateValue[0]);
 
   return (
     <div className="App">
@@ -129,10 +130,48 @@ const EveryDayData = () => {
       })}
   </select>}
   {hideGraph?<><h1>No data Available for Date {selectedDate}</h1>
-  </>: 
+  </>: <>
+  <div className="container">
+  <div class="row mt-2 mb-2">
+  <div class="col-sm-3">
+    <div class="card  bg-primary">
+      <div class="card-body">
+        <h5 class="card-title">Confirmed</h5>
+        <p className="card-text text-white">{stateValue[0] && stateValue[0]}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+  <div class="card bg-danger">
+      <div class="card-body">
+        <h5 class="card-title">Death</h5>
+        <p className="card-text text-white">{stateValue[1] && stateValue[1]}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+  <div class="card bg-success">
+      <div class="card-body">
+        <h5 class="card-title">Active</h5>
+        <p className="card-text text-white">{stateValue[2] && stateValue[2]}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+  <div class="card bg-success">
+      <div class="card-body bg-info">
+        <h5 class="card-title">Recovered</h5>
+        <p className="card-text text-white">{stateValue[3] && stateValue[3]}</p>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div className="container mb-4">
      <Bar data={chartData} height={25} width={100} />
+  </div>
+     </>
   }
-  {/* <GlobalData/> */}
     </div>
   );
 }
