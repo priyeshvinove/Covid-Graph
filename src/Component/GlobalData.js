@@ -16,7 +16,6 @@ const GlobalData = React.memo(props=>{
         setGlobalData(data);
         setGlobalCountry([...tempCountry])
     })
-    console.log("This is it");
   },[timeSeriesCovidData])
   let filterData='';
   globalData && globalData.filter((val)=>{
@@ -59,6 +58,9 @@ let confirmed=[];
       },[dropDownValue])
   return (
     <div>
+    <hr/>
+    <h1 className="text-primary d-flex justify-content-center">Global Covid Data Graph</h1>
+    <hr/>
     <select
     className="mt-3 bg-dark text-white w-25 p-2 d-flex m-auto"
      onChange={(e) => {
@@ -80,9 +82,9 @@ let confirmed=[];
           setTimeSeriesCovidData(dropvalue)
         }}
     >
-    <option value={"time_series_covid19_confirmed_global"} className="bg-primary text-white">Global Confirmed Cases</option>
-    <option value={"time_series_covid19_recovered_global"} className="bg-primary text-white">Global Recovered Cases</option>
-    <option value={"time_series_covid19_deaths_global"} className="bg-primary text-white">Global Death Cases</option>
+    <option value={"time_series_covid19_confirmed_global"} className=" text-dark">Global Confirmed Cases</option>
+    <option value={"time_series_covid19_recovered_global"} className=" text-dark">Global Recovered Cases</option>
+    <option value={"time_series_covid19_deaths_global"} className=" text-dark">Global Death Cases</option>
 
     </select>
     <Bar data={chartData} height={30} width={100}/>

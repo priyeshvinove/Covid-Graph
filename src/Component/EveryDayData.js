@@ -82,13 +82,12 @@ const EveryDayData = () => {
          setStateValue([parseInt(val.Confirmed),parseInt(val.Deaths),parseInt(val.Active),parseInt(val.Recovered)])
        }
      })
-     },[provinceState,dropDownValue,selectedDate])
-
-        // console.log(stateValue[0]);
-       console.log(stateValue[0]);
-
+     },[provinceState,dropDownValue,selectedDate])  
   return (
     <div className="App">
+     <hr/>
+    <h1 className="text-info">Daily Covid Data Graph</h1>
+    <hr/>
      <h1><span className="text-danger"><u>{dropDownValue}</u></span> Covid Data {altenatDate &&altenatDate.toDateString()}</h1>
       <DatePicker
                     selected={altenatDate}
