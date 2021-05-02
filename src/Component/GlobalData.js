@@ -55,7 +55,6 @@ let confirmed=[];
         chart();
       },[dropDownValue])
 
-console.log("main");
   return (
     <div>
     <hr/>

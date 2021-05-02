@@ -34,7 +34,6 @@ const EveryDayData = () => {
       setHideGraph(true)
       });
   }, [selectedDate]);
-  console.log("EVery day");
   const chart=()=>{
     setChartData({
           labels: ["Confirmed","Death","Active","Recovered"],
