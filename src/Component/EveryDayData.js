@@ -4,7 +4,7 @@ import { csv } from "d3";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import Moment from 'moment';
-import CountUp from "react-countup";
+// import CountUp from "react-countup";
 
 const EveryDayData = () => {
     const [covidData,setCovidData]=useState();
@@ -34,7 +34,7 @@ const EveryDayData = () => {
       setHideGraph(true)
       });
   }, [selectedDate]);
-
+  console.log("EVery day");
   const chart=()=>{
     setChartData({
           labels: ["Confirmed","Death","Active","Recovered"],
@@ -105,8 +105,7 @@ const EveryDayData = () => {
        className="mt-3 bg-dark text-white w-25 p-2" 
        onChange={(e) => {
           const dropvalue = e.target.value;
-          setDropDownValue(dropvalue,()=>{
-          });
+          setDropDownValue(dropvalue);
         }} >
       {country&& country.map((val,index)=>{
        return(
@@ -118,8 +117,7 @@ const EveryDayData = () => {
   <select className="mt-3 bg-dark text-white w-25 p-2"
   onChange={(e) => {
           const dropvalue = e.target.value;
-          setProvinceState(dropvalue,()=>{
-          });
+          setProvinceState(dropDownValue);
         }}
   >
   {stateName&& stateName.map((val,index)=>{

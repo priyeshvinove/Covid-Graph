@@ -1,8 +1,7 @@
 import React, { useEffect,useState } from 'react'
-import {csv, filter, index, sum} from 'd3';
-import Moment from 'moment'
-import { Bar, Line } from 'react-chartjs-2';
-const GlobalData = React.memo(props=>{
+import {csv} from 'd3';
+import { Bar} from 'react-chartjs-2';
+  const GlobalData=()=>{
   const [globalData,setGlobalData]=useState();
   const [globalCountry,setGlobalCountry]=useState([]);
   const [chartData,setChartData]=useState();
@@ -31,7 +30,6 @@ let confirmed=[];
     if(!isNaN(date.valueOf())){
       header=[...header,property]
       confirmed=[...confirmed,filterData[property]]
-        // sumValue=sumValue+filterData[property]*1
       }
   }
   const chart=()=>{
@@ -48,14 +46,16 @@ let confirmed=[];
                 'rgba(60, 179, 113, 1)',
               ],
               borderWidth: 1,
-
             }
           ]
         });
       }
+
       useEffect(()=>{
         chart();
       },[dropDownValue])
+
+console.log("main");
   return (
     <div>
     <hr/>
@@ -65,8 +65,7 @@ let confirmed=[];
     className="mt-3 bg-dark text-white w-25 p-2 d-flex m-auto"
      onChange={(e) => {
           const dropvalue = e.target.value;
-          setDropDownValue(dropvalue,()=>{
-          });
+          setDropDownValue(dropvalue);
         }}
     >
       {globalCountry && globalCountry.map((data,index)=>{
@@ -92,6 +91,6 @@ let confirmed=[];
     </div>
     </div>
   )
-})
+      }
 
 export default GlobalData;
